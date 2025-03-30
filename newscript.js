@@ -7,6 +7,28 @@ import { handleMC, handleClosingHistorySection } from "./modularMethods/Operatio
 class Calculator{
 
     constructor(){
+      this.validKeyboardCharacters = [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "+",
+        "-",
+        "/",
+        "X",
+        "%",
+        "e",
+        "^",
+        ".",
+        "(",
+        ")",
+      ];
         this.calculatorInput = document.querySelector(`.calculator-input`);
         this.secondOperationToggle = 0;
         this.calculatorInput.value = ``;
@@ -337,16 +359,17 @@ class Calculator{
 
 
       handleFractionToExponential() {
-        let newRegex = /(\d+)$/g;
-        if (newRegex.test(this.calculatorInput.value)) {
-          this.regex = /(\d+)\.?(\d*)$/g;
+          this.regex = /(\d+)\.(\d*)$/g;
           this.calculatorInput.value = this.calculatorInput.value.replace(
             this.regex,
             (match, num1, num2) => {
               console.log(num1, " ", num2);
       
               if (num1 === "0" && num2 !== "0") {
-                return `${num2}X10^-${num2.length}`;
+                
+                
+                
+                return `${num2.replace(/^0+/, '') || '0'}X10^-${num2.length}`;
               } else {
                 if (num2 === "") {
                   let firstDigit = num1[0];
@@ -357,9 +380,7 @@ class Calculator{
               }
             }
           );
-        } else {
-          return;
-        }
+        
       }
 
       
@@ -541,28 +562,7 @@ class Calculator{
       }
 
       handleKeyboardInput(event){
-        const validKeyboardCharacters = [
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "+",
-            "-",
-            "/",
-            "X",
-            "%",
-            "e",
-            "^",
-            ".",
-            "(",
-            ")",
-          ];
+        
         
           if (event.key === "Backspace" || event.key === "Delete") {
             this.calculatorInput.value = this.calculatorInput.value.slice(0, -1);
@@ -570,7 +570,7 @@ class Calculator{
           if (event.key === "=" || event.key === "Enter") {
             this.resultFunc();
           }
-          if (validKeyboardCharacters.indexOf(event.key) !== -1) {
+          if (this.validKeyboardCharacters.indexOf(event.key) !== -1) {
             this.calculatorInput.value += event.key;
           }
     }  
