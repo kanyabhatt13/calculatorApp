@@ -565,7 +565,7 @@ class Calculator{
           ];
         
           if (event.key === "Backspace" || event.key === "Delete") {
-            calculatorInput.value = calculatorInput.value.slice(0, -1);
+            this.calculatorInput.value = this.calculatorInput.value.slice(0, -1);
           }
           if (event.key === "=" || event.key === "Enter") {
             this.resultFunc();
