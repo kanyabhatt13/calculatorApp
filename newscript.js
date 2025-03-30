@@ -36,8 +36,8 @@ class Calculator{
             degreeRadianChange(event);
         });
 
-        document.getElementsByClassName('f-e-button')[0].addEventListener('click', (event)=>{
-            this.handleFractionToExponential(event);
+        document.getElementsByClassName('f-e-button')[0].addEventListener('click', ()=>{
+            this.handleFractionToExponential();
         });
         
         document.getElementById('mc-button').addEventListener('click', ()=>{
@@ -50,10 +50,12 @@ class Calculator{
             this.handleMR();
         });
 
-        document.getElementById('M-plus-minus-button').addEventListener('click', (event)=>{
-          console.log('function called');
-            this.handleMplusAndMinus(event);
+        document.querySelectorAll('#M-plus-minus-button').forEach((element)=>{
+          element.addEventListener('click', (event)=>{
+
+            this.handleMplusAndMinus(event.target);
         });
+        })
 
         document.getElementById('ms-button').addEventListener('click', ()=>{
             this.handleMS();
@@ -334,7 +336,7 @@ class Calculator{
 
 
 
-      handleFractionToExponential(ref) {
+      handleFractionToExponential() {
         let newRegex = /(\d+)$/g;
         if (newRegex.test(this.calculatorInput.value)) {
           this.regex = /(\d+)\.?(\d*)$/g;
@@ -368,7 +370,6 @@ class Calculator{
       }
 
       handleMplusAndMinus(ref) {
-        console.log('function called');
         
         let previousOutput = localStorage.getItem("calculationOutput");
         let num = eval(this.resultFuncInitialEvaluation(this.calculatorInput.value));
@@ -376,11 +377,10 @@ class Calculator{
         
       
         let val =
-          ref.id === "plus"
+          ref.className === "plus"
             ? `${+num + +previousOutput}`
             : `${+num - +previousOutput}`;
 
-            
         localStorage.setItem("calculationOutput", val);
         this.calculatorInput.value = val;
       }
